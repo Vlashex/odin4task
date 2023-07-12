@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Odin task</title>
+</head>
+<body>
+<script type="module">
+    import * as tf from '@tensorflow/tfjs'
+    async function loadMobileNet() {
+        return await tf.loadLayersModel(
+            'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json'
+        );
+    }
+</script>
+</body>
+</html>
+
