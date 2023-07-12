@@ -1,30 +1,41 @@
 <!DOCTYPE html>
-<html>
 <head>
     <title>Odin task</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"></script>
 </head>
 <body>
-<script type="module">
-    import * as tf from '@tensorflow/tfjs'
-    async function loadMobileNet() {
-        return await tf.loadLayersModel(
-            'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json'
-        );
+<img crossorigin="anonymous" id="img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/De_Campos.JPG/220px-De_Campos.JPG"
+     width="400px"/>
+<div id="ans"></div>
+<script>
+
+
+    function getClassificationsFromImage() {
+        const img = document.getElementById('img');
+
+        return mobilenet.load().then(model => {
+            return model.classify(img);
+        });
     }
 
-    /*1. MobileNet v1 1.0 224
-    - Архитектура: https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_1.0_224/model.json
+    function formatClassifications(predictions) {
+        let text = "";
 
-        2. MobileNet v1 0.75 224
-    - Архитектура: https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.75_224/model.json
+        for (let pred of predictions) {
+            text += pred.className + " " + pred.probability + "<br>";
+            console.log(text);
+        }
 
-        3. MobileNet v1 0.50 224
-    - Архитектура: https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.50_224/model.json
+        return text;
+    }
 
-        4. MobileNet v1 0.25 224
-    - Архитектура: https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json
-    */
+    function displayText(text) {
+        const ans = document.getElementById("ans");
+        ans.innerHTML = text;
+    }
+
+    getClassificationsFromImage().then(formatClassifications).then(displayText);
 
 </script>
 </body>
-</html>
